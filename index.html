@@ -482,6 +482,12 @@
     footer { flex-direction: column; align-items: center; text-align: center; }
     .footer-links { flex-wrap: wrap; justify-content: center; gap: 16px; }
   }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 </style>
 </head>
 <body>
@@ -692,8 +698,7 @@ const supabaseClient = window.supabase.createClient(
 );
 
 async function submitWaitlist(inputId, successId) {
-  alert("Button clicked");
-  const input = document.getElementById(inputId);
+    const input = document.getElementById(inputId);
   const success = document.getElementById(successId);
 
   const email = input.value.trim();
@@ -714,10 +719,27 @@ async function submitWaitlist(inputId, successId) {
     return;
   }
 
-  input.style.display = "none";
-  const btn = input.nextElementSibling;
-  if (btn) btn.style.display = "none";
-  success.style.display = "block";
+  input.value = "";
+
+  const toast = document.createElement("div");
+  toast.innerHTML = "💖 You're in! Thanks for joining the Vowfinity waitlist.";
+  toast.style.position = "fixed";
+  toast.style.bottom = "24px";
+  toast.style.right = "24px";
+  toast.style.background = "linear-gradient(135deg,#FF6B9D,#C084FC)";
+  toast.style.color = "white";
+  toast.style.padding = "16px 24px";
+  toast.style.borderRadius = "14px";
+  toast.style.fontFamily = "'DM Sans', sans-serif";
+  toast.style.fontWeight = "600";
+  toast.style.boxShadow = "0 10px 30px rgba(0,0,0,0.15)";
+  toast.style.zIndex = "9999";
+
+  document.body.appendChild(toast);
+
+  setTimeout(() => {
+    toast.remove();
+  }, 4000);
 }
 </script>
 </body>
