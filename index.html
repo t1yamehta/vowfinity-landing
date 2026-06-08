@@ -683,19 +683,40 @@
   <p class="footer-copy">© 2026 Vowfinity · us, but make it infinite</p>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
-function submitWaitlist(inputId, successId) {
-  var input = document.getElementById(inputId);
-  var success = document.getElementById(successId);
-  if (!input.value || !input.value.includes('@')) {
-    input.style.borderColor = '#FF6B9D';
+const supabase = window.supabase.createClient(
+  "https://klcflpjwkfiqntsgttpj.supabase.co",
+  "sb_publishable_yDKhuADALUBxtM-X7J66yw_XcdXQcSQ"
+);
+
+async function submitWaitlist(inputId, successId) {
+  const input = document.getElementById(inputId);
+  const success = document.getElementById(successId);
+
+  const email = input.value.trim();
+
+  if (!email || !email.includes("@")) {
+    input.style.borderColor = "#FF6B9D";
     input.focus();
     return;
   }
-  input.style.display = 'none';
-  var btn = input.nextElementSibling;
-  if (btn) btn.style.display = 'none';
-  success.style.display = 'block';
+
+  const { error } = await supabase
+    .from("waitlist")
+    .insert([{ email }]);
+
+  if (error) {
+    console.error(error);
+    alert("Something went wrong. Please try again.");
+    return;
+  }
+
+  input.style.display = "none";
+  const btn = input.nextElementSibling;
+  if (btn) btn.style.display = "none";
+  success.style.display = "block";
 }
 </script>
 </body>
