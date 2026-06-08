@@ -692,6 +692,7 @@ const supabase = window.supabase.createClient(
 );
 
 async function submitWaitlist(inputId, successId) {
+  alert("Button clicked");
   const input = document.getElementById(inputId);
   const success = document.getElementById(successId);
 
@@ -709,7 +710,7 @@ async function submitWaitlist(inputId, successId) {
 
   if (error) {
     console.error(error);
-    alert("Something went wrong. Please try again.");
+    alert(error.message);
     return;
   }
 
