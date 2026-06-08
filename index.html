@@ -683,9 +683,10 @@
   <p class="footer-copy">© 2026 Vowfinity · us, but make it infinite</p>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 
 <script>
+console.log("Supabase object:", window.supabase);
 const supabase = window.supabase.createClient(
   "https://klcflpjwkfiqntsgttpj.supabase.co",
   "sb_publishable_yDKhuADALUBxtM-X7J66yw_XcdXQcSQ"
