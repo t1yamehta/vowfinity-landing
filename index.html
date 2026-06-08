@@ -683,11 +683,10 @@
   <p class="footer-copy">© 2026 Vowfinity · us, but make it infinite</p>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-console.log("Supabase object:", window.supabase);
-const supabase = window.supabase.createClient(
+const supabaseClient = window.supabase.createClient(
   "https://klcflpjwkfiqntsgttpj.supabase.co",
   "sb_publishable_yDKhuADALUBxtM-X7J66yw_XcdXQcSQ"
 );
@@ -705,7 +704,7 @@ async function submitWaitlist(inputId, successId) {
     return;
   }
 
-  const { error } = await supabase
+  const { error } = await supabaseClient
     .from("waitlist")
     .insert([{ email }]);
 
