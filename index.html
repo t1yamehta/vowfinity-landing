@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vowfinity — us, but make it infinite</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Playfair+Display:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --pink: #FF6B9D;
+    --lavender: #C084FC;
+    --peach: #FB923C;
+    --bg: #FFF5F9;
+    --page: #EDE0E8;
+    --text-dark: #2D1B2E;
+    --text-mid: #6B4C6E;
+    --text-light: #A680AA;
+    --card-bg: #FFFFFF;
+    --grad: linear-gradient(135deg, #FF6B9D 0%, #C084FC 100%);
+    --grad-soft: linear-gradient(135deg, rgba(255,107,157,0.12) 0%, rgba(192,132,252,0.12) 100%);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--page);
+    color: var(--text-dark);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(237,224,232,0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,107,157,0.15);
+    padding: 14px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-logo img { height: 36px; width: auto; }
+  .nav-logo-text {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 20px;
+    font-weight: 500;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .nav-cta {
+    background: var(--grad);
+    color: #fff;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 50px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.2s, transform 0.2s;
+    display: inline-block;
+  }
+  .nav-cta:hover { opacity: 0.88; transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+    padding: 120px 24px 80px;
+    position: relative;
+    overflow: hidden;
+    background: var(--bg);
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 20% 30%, rgba(255,107,157,0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 60% at 80% 70%, rgba(192,132,252,0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 60% 20%, rgba(251,146,60,0.10) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-logo {
+    width: 130px; height: auto;
+    margin-bottom: 28px;
+    animation: floatLogo 4s ease-in-out infinite;
+    position: relative; z-index: 1;
+  }
+  @keyframes floatLogo {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+  .hero-eyebrow {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--pink);
+    margin-bottom: 16px;
+    position: relative; z-index: 1;
+  }
+  .hero-headline {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(32px, 5vw, 60px);
+    font-weight: 500;
+    line-height: 1.12;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 20px;
+    position: relative; z-index: 1;
+  }
+  .hero-sub {
+    font-size: clamp(16px, 2.5vw, 20px);
+    color: var(--text-mid);
+    max-width: 540px;
+    line-height: 1.65;
+    margin-bottom: 44px;
+    position: relative; z-index: 1;
+  }
+  .hero-sub span {
+    color: var(--pink);
+    font-weight: 500;
+  }
+
+  /* Waitlist form */
+  .waitlist-form {
+    display: flex; gap: 10px; flex-wrap: wrap;
+    justify-content: center;
+    position: relative; z-index: 1;
+    margin-bottom: 20px;
+  }
+  .waitlist-input {
+    padding: 14px 20px;
+    border-radius: 50px;
+    border: 1.5px solid rgba(255,107,157,0.3);
+    background: rgba(255,255,255,0.9);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    color: var(--text-dark);
+    width: 280px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .waitlist-input::placeholder { color: var(--text-light); }
+  .waitlist-input:focus { border-color: var(--pink); }
+  .waitlist-btn {
+    padding: 14px 30px;
+    border-radius: 50px;
+    background: var(--grad);
+    color: #fff;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+    white-space: nowrap;
+  }
+  .waitlist-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+  .hero-note {
+    font-size: 13px;
+    color: var(--text-light);
+    position: relative; z-index: 1;
+  }
+  .hero-counter {
+    margin-top: 36px;
+    display: flex; align-items: center; gap: 8px;
+    position: relative; z-index: 1;
+  }
+  .hero-counter-avatars {
+    display: flex;
+  }
+  .hero-counter-avatars span {
+    width: 32px; height: 32px; border-radius: 50%;
+    border: 2px solid var(--bg);
+    margin-left: -8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .hero-counter-avatars span:first-child { margin-left: 0; background: #FFB3D1; }
+  .hero-counter-avatars span:nth-child(2) { background: #D4A8FF; }
+  .hero-counter-avatars span:nth-child(3) { background: #FFBB8A; }
+  .hero-counter-text { font-size: 14px; color: var(--text-mid); }
+  .hero-counter-text strong { color: var(--pink); }
+
+  /* ── SECTION SHARED ── */
+  section { padding: 100px 24px; }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(28px, 4vw, 46px);
+    font-weight: 500;
+    color: var(--text-dark);
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+  .section-desc {
+    font-size: 17px;
+    color: var(--text-mid);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 56px;
+  }
+
+  /* ── FEATURES ── */
+  .features { background: var(--page); }
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .feature-card {
+    background: var(--card-bg);
+    border-radius: 24px;
+    padding: 32px 28px;
+    border: 1px solid rgba(255,107,157,0.1);
+    transition: transform 0.25s, box-shadow 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .feature-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--grad);
+  }
+  .feature-card:hover { transform: translateY(-4px); box-shadow: 0 20px 50px rgba(255,107,157,0.12); }
+  .feature-icon {
+    width: 52px; height: 52px;
+    border-radius: 16px;
+    background: var(--grad-soft);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    margin-bottom: 20px;
+  }
+  .feature-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+  }
+  .feature-card p {
+    font-size: 15px;
+    color: var(--text-mid);
+    line-height: 1.65;
+  }
+
+  /* ── HOW IT WORKS ── */
+  .how { background: var(--bg); }
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0;
+    position: relative;
+  }
+  .steps::before {
+    content: '';
+    position: absolute;
+    top: 36px; left: 10%; right: 10%; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,107,157,0.3), rgba(192,132,252,0.3), transparent);
+  }
+  .step {
+    text-align: center;
+    padding: 0 24px;
+    position: relative; z-index: 1;
+  }
+  .step-num {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: var(--grad);
+    color: #fff;
+    font-size: 24px;
+    font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+  }
+  .step h3 {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+  }
+  .step p {
+    font-size: 14px;
+    color: var(--text-mid);
+    line-height: 1.6;
+  }
+
+  /* ── GAMES STRIP ── */
+  .games { background: var(--page); }
+  .games-strip {
+    display: flex; gap: 16px; flex-wrap: wrap;
+  }
+  .game-pill {
+    background: var(--card-bg);
+    border: 1px solid rgba(255,107,157,0.15);
+    border-radius: 50px;
+    padding: 12px 24px;
+    display: flex; align-items: center; gap: 10px;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-dark);
+    transition: all 0.2s;
+    cursor: default;
+  }
+  .game-pill:hover {
+    background: var(--grad);
+    color: #fff;
+    border-color: transparent;
+    transform: translateY(-2px);
+  }
+  .game-pill .pill-emoji { font-size: 18px; }
+
+  /* ── TESTIMONIALS / QUOTE ── */
+  .quote-section { background: var(--bg); }
+  .quote-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .quote-card {
+    background: var(--card-bg);
+    border-radius: 24px;
+    padding: 28px;
+    border: 1px solid rgba(255,107,157,0.1);
+  }
+  .quote-stars { color: var(--pink); font-size: 16px; margin-bottom: 14px; letter-spacing: 2px; }
+  .quote-text {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--text-dark);
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+  .quote-author {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .quote-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+  }
+  .quote-name { font-size: 14px; font-weight: 600; color: var(--text-dark); }
+  .quote-handle { font-size: 12px; color: var(--text-light); }
+
+  /* ── FINAL CTA ── */
+  .final-cta {
+    background: var(--text-dark);
+    text-align: center;
+    padding: 100px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .final-cta::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 80% at 30% 50%, rgba(255,107,157,0.15) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 80% at 70% 50%, rgba(192,132,252,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .final-cta h2 {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(32px, 5vw, 58px);
+    font-weight: 500;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 16px;
+    position: relative; z-index: 1;
+  }
+  .final-cta p {
+    font-size: 18px;
+    color: rgba(255,255,255,0.65);
+    max-width: 460px;
+    margin: 0 auto 40px;
+    line-height: 1.65;
+    position: relative; z-index: 1;
+  }
+  .final-form {
+    display: flex; gap: 10px; flex-wrap: wrap;
+    justify-content: center;
+    position: relative; z-index: 1;
+  }
+  .final-input {
+    padding: 14px 22px;
+    border-radius: 50px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.08);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    color: #fff;
+    width: 280px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .final-input::placeholder { color: rgba(255,255,255,0.4); }
+  .final-input:focus { border-color: rgba(255,107,157,0.6); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--text-dark);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 32px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 16px;
+  }
+  .footer-logo {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .footer-logo img { height: 28px; }
+  .footer-logo span {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 17px;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .footer-links {
+    display: flex; gap: 24px;
+  }
+  .footer-links a {
+    font-size: 13px;
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--pink); }
+  .footer-copy {
+    font-size: 12px;
+    color: rgba(255,255,255,0.25);
+  }
+
+  /* ── SUCCESS STATE ── */
+  .success-msg {
+    display: none;
+    color: var(--pink);
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 12px;
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 600px) {
+    nav { padding: 12px 20px; }
+    .steps::before { display: none; }
+    .step { padding: 0 12px; margin-bottom: 32px; }
+    footer { flex-direction: column; align-items: center; text-align: center; }
+    .footer-links { flex-wrap: wrap; justify-content: center; gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    
+    <span class="nav-logo-text">Vowfinity</span>
+  </a>
+  <a href="#waitlist" class="nav-cta">Join Waitlist</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  
+  
+
+<div style="text-align:center; margin-bottom:-12px;">
+  <img src="images/vowfinity-infinity-logo.png" alt="Vowfinity Infinity Logo"
+       style="width:280px; max-width:55vw; height:auto;">
+</div>
+<h1 style="
+  font-family:'Playfair Display', serif;
+  font-style:italic;
+  font-size:clamp(48px, 8vw, 96px);
+  font-weight:600;
+  color:#000;
+  margin-bottom:12px;
+  line-height:1;
+  position:relative;
+  z-index:1;
+">
+  Vowfinity
+</h1>
+
+
+
+  <h1 class="hero-headline">us, but make it infinite</h1>
+  <p class="hero-sub">
+    The relationship app that turns everyday moments into deeper connection.<br />
+    <span>Play games, answer meaningful questions, exchange surprises, and build rituals</span> that bring you closer every day.
+  </p>
+
+  <div class="waitlist-form" id="waitlist">
+    <input class="waitlist-input" type="email" id="hero-email" placeholder="your@email.com" />
+    <button class="waitlist-btn" onclick="submitWaitlist('hero-email','hero-success')">Join the Waitlist ✨</button>
+  </div>
+  <p class="success-msg" id="hero-success">You're in! We'll reach out before launch 💞</p>
+  <p class="hero-note">Free to join · No credit card · Be first to know</p>
+  <p class="hero-note" style="margin-top:10px;">
+    Follow Vowfinity on
+    <a href="https://www.instagram.com/vowfinity?utm_source=qr" target="_blank">Instagram</a>,
+    <a href="https://x.com/vowfinity?s=11" target="_blank">X</a> and
+    <a href="https://youtube.com/@vowfinity?si=yO89N7SHYwnlCYzn" target="_blank">YouTube</a> ✨
+  </p>
+
+  
+  </div>
+</section>
+
+
+
+
+
+
+
+
+<!-- GAMES STRIP -->
+<section class="games">
+  <div class="section-inner">
+    <p class="section-label">Game modes</p>
+    <h2 class="section-title">Six ways to connect, laugh, and grow together</h2>
+    <p class="section-desc">Every game in Vowfinity is built to bring you closer — one laugh, one surprise, one honest answer at a time.</p>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">💬</div>
+        <h3>Daily Questions</h3>
+        <p>A new question every day designed to spark meaningful conversations — from playful and lighthearted to surprisingly deep.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🤔</div>
+        <h3>Who's More Likely</h3>
+        <p>Vote on who would do what in your relationship. Funny, revealing, and guaranteed to start conversations.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔥</div>
+        <h3>Dare Drop</h3>
+        <p>Sweet, playful, and sometimes bold challenges designed to bring you closer one dare at a time.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎤</div>
+        <h3>Voice Bomb</h3>
+        <p>Send unexpected voice notes, surprises, and little moments of affection your partner can replay anytime.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💎</div>
+        <h3>He's a 10 But...</h3>
+        <p>Rate quirky scenarios, debate deal-breakers, and discover just how well you really know each other.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💞</div>
+        <h3>Love Language Hub</h3>
+        <p>Explore how you and your partner give and receive love through personalised activities and insights.</p>
+      </div>
+    </div></div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+
+<section class="how">
+  <div class="section-inner">
+    <p class="section-label">How it works</p>
+    <h2 class="section-title">Up and running in minutes</h2>
+    <p class="section-desc">No complicated setups. Just you, your person, and a whole lot of fun ahead.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Create your profile</h3>
+        <p>Sign up, pick your avatar, and tell Vowfinity a little about yourselves.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Invite your partner</h3>
+        <p>Send them a unique code. They join in seconds — no extra setup needed.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Play together</h3>
+        <p>Dive into games, answer daily questions, and complete dares — in real time or async.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3>Grow closer</h3>
+        <p>Track milestones, unlock new rituals, and watch your bond get deeper every day.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="how">
+  <div class="section-inner">
+    <p class="section-label">Why Vowfinity</p>
+    <h2 class="section-title">
+      Most relationship apps help you track.<br>
+      Vowfinity helps you connect.
+    </h2>
+    
+  </div>
+
+<div style="margin-top:40px;">
+  <h3 style="
+    font-family:'Playfair Display', serif;
+    font-style:italic;
+    font-size:24px;
+    margin-bottom:24px;
+    color:var(--text-dark);
+    text-align:center;
+  ">
+    Perfect for...
+  </h3>
+
+  <div class="games-strip" style="justify-content:center; align-items:center;">
+      <div class="game-pill"><span class="pill-emoji">💞</span> New Couples</div>
+      <div class="game-pill"><span class="pill-emoji">🌍</span> Long-Distance</div>
+      <div class="game-pill"><span class="pill-emoji">💍</span> Engaged Couples</div>
+      <div class="game-pill"><span class="pill-emoji">❤️</span> Long-Term Partners</div>
+  </div>
+</div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <h2>because the best relationships never stop growing ∞</h2>
+  <p>Be among the first couples to experience Vowfinity when we launch. Join the waitlist for early access.</p>
+
+  <div class="final-form">
+    <input class="final-input" type="email" id="final-email" placeholder="your@email.com" />
+    <button class="waitlist-btn" onclick="submitWaitlist('final-email','final-success')">Get Early Access ✨</button>
+  </div>
+  <p class="success-msg" id="final-success" style="color:#FF6B9D;">You're on the list! 💞</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    
+    <span>Vowfinity</span>
+  </div>
+  <div class="footer-links">
+    <a href="https://www.instagram.com/vowfinity?utm_source=qr" target="_blank">Instagram</a>
+    <a href="https://x.com/vowfinity?s=11" target="_blank">X</a>
+    <a href="https://youtube.com/@vowfinity?si=yO89N7SHYwnlCYzn" target="_blank">YouTube</a>
+    <a href="#">Privacy</a>
+  </div>
+  <p class="footer-copy">© 2026 Vowfinity · us, but make it infinite</p>
+</footer>
+
+<script>
+function submitWaitlist(inputId, successId) {
+  var input = document.getElementById(inputId);
+  var success = document.getElementById(successId);
+  if (!input.value || !input.value.includes('@')) {
+    input.style.borderColor = '#FF6B9D';
+    input.focus();
+    return;
+  }
+  input.style.display = 'none';
+  var btn = input.nextElementSibling;
+  if (btn) btn.style.display = 'none';
+  success.style.display = 'block';
+}
+</script>
+</body>
+</html>
